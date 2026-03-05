@@ -50,6 +50,8 @@ float perlin(float x, float y)
 	n0 = dotGridGradient(x0, y1, x, y);
 	n1 = dotGridGradient(x1, y1, x, y);
 	float ix1 = interpolate(n0, n1, sx);
-
-	return interpolate(ix0, ix1, sy);
+	
+	float res = std::abs(interpolate(ix0, ix1, sy));
+	return 1.0f - (res * res);
+	//return interpolate(ix0, ix1, sy);
 }

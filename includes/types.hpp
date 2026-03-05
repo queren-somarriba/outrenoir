@@ -6,9 +6,9 @@
 #define f_PI		3.14159265f
 #define WIDTH		720
 #define HEIGHT		1080
-#define PSD_R		10.0f
-#define LINE_PADDING	3.0f
-#define LINE_LENGHT	5000
+#define PSD_R		6.0f
+#define LINE_PADDING	2.0f
+#define LINE_LENGHT	10000
 
 struct vec2
 {

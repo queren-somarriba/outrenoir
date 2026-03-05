@@ -5,26 +5,26 @@ std::vector<vec2>	makeGrid(const meridianData& data)
 	std::vector<vec2> grid(WIDTH * HEIGHT);
 
 	float n, angle;
-	//int steps = 12;
+	//float steps = 12.0f;
 
 	for (int j = 0; j < HEIGHT; ++j)
 	{
 		for (int i = 0; i < WIDTH; ++i) 
 		{
 			n = perlin (i * data.scale, j * data.scale);
-			//n = std::floor(std::abs(n * steps) / steps);
-			angle = n * f_PI * 2.0f;//n * 2.0f * 3.14159f; for all directions
+			//n = std::floor(std::abs(n * steps)) / steps;
+			angle = n * f_PI;//n * 2.0f * 3.14159f; for all directions
 			grid[j * WIDTH + i] = {static_cast<float>(cosf(angle)), static_cast<float>(sinf(angle))};
 		}
 	}
 	return (grid);
 }
 
-void	pushTriangles(vec2 currentP, vec2 nextP, std::vector<vec2>& allSegments, int index)
+void	pushTriangles(vec2 currentP, vec2 nextP, std::vector<vec2>& allSegments, float t)
 {
 	vec2	v1, v2, v3, v4;
 	vec2	vect_dirr, vdirr_normal;
-	float	vdirr_len, t = 2.0f * sin(f_PI * index * 0.002);
+	float	vdirr_len;
 
 	vect_dirr = {nextP.x - currentP.x, nextP.y - currentP.y};
 	vdirr_len = sqrtf( vect_dirr.x * vect_dirr.x + vect_dirr.y * vect_dirr.y);
@@ -78,6 +78,9 @@ bool	checkCollision(vec2 nextP, int currentLine, collisionContext& col_ctx)
 void	makeSegments(vec2 start, const meridianData& data, const std::vector<vec2>& grid,
 		std::vector<vec2>& allSegments, int currentLine, collisionContext& col_ctx)
 {
+	std::vector<vec2> path;
+	path.push_back(start);
+
 	vec2 v, nextP, currentP = start;
 	int x, y, i = -1;
 
@@ -89,9 +92,21 @@ void	makeSegments(vec2 start, const meridianData& data, const std::vector<vec2>&
 		nextP = {currentP.x + v.x * data.stepSize, currentP.y + v.y * data.stepSize};
 
 		if (checkCollision(nextP, currentLine, col_ctx))
-			return;
+			break;
 
-		pushTriangles(currentP, nextP, allSegments, i);
+		path.push_back(nextP);
 		currentP = nextP;
+	}
+
+	float ratio, t;
+
+	if (path.size() > 2)
+	{
+		for (size_t j = 0; j < path.size() -1; ++j)
+		{
+			ratio = static_cast<float>(j) / static_cast<float>(path.size() - 1);
+			t = std::sinf(f_PI * ratio) * 2.0f;
+			pushTriangles(path[j], path[j + 1], allSegments, t);
+		}
 	}
 }
