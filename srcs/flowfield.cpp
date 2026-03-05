@@ -5,12 +5,14 @@ std::vector<vec2>	makeGrid(const meridianData& data)
 	std::vector<vec2> grid(WIDTH * HEIGHT);
 
 	float n, angle;
+	//int steps = 12;
 
 	for (int j = 0; j < HEIGHT; ++j)
 	{
 		for (int i = 0; i < WIDTH; ++i) 
 		{
 			n = perlin (i * data.scale, j * data.scale);
+			//n = std::floor(std::abs(n * steps) / steps);
 			angle = n * f_PI * 2.0f;//n * 2.0f * 3.14159f; for all directions
 			grid[j * WIDTH + i] = {static_cast<float>(cosf(angle)), static_cast<float>(sinf(angle))};
 		}
@@ -68,7 +70,7 @@ bool	checkCollision(vec2 nextP, int currentLine, collisionContext& col_ctx)
 			}
 		}
 	}
-	
+
 	col_ctx.grid[cY * col_ctx.cols + cX] = currentLine;
 	return false;
 }
@@ -78,9 +80,12 @@ void	makeSegments(vec2 start, const meridianData& data, const std::vector<vec2>&
 {
 	vec2 v, nextP, currentP = start;
 	int x, y, i = -1;
+	// col_ctx.cellSize = (LINE_PADDING) / sqrtf(2.0f);
+
 
 	while (++i < LINE_LENGHT)
 	{
+		// col_ctx.cellSize = (LINE_PADDING + i) / sqrtf(2.0f);
 		x = static_cast<int>(currentP.x);
 		y = static_cast<int>(currentP.y);
 		v = grid[y * WIDTH + x];

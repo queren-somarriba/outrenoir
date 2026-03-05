@@ -8,20 +8,13 @@
 #define HEIGHT		1080
 #define PSD_R		10.0f
 #define LINE_PADDING	3.0f
-#define LINE_LENGHT	10000
+#define LINE_LENGHT	5000
 
 struct vec2
 {
 	float	x;
 	float	y;
 };
-
-// struct triangles
-// {
-// 	vec2 	s1;
-// 	vec2	s2;
-// 	vec2	s3;
-// };
 
 struct meridianData
 {

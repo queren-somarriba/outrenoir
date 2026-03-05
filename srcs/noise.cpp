@@ -51,5 +51,5 @@ float perlin(float x, float y)
 	n1 = dotGridGradient(x1, y1, x, y);
 	float ix1 = interpolate(n0, n1, sx);
 
-	return (interpolate(ix0, ix1, sy));
+	return interpolate(ix0, ix1, sy);
 }
