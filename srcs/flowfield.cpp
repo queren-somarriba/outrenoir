@@ -80,12 +80,9 @@ void	makeSegments(vec2 start, const meridianData& data, const std::vector<vec2>&
 {
 	vec2 v, nextP, currentP = start;
 	int x, y, i = -1;
-	// col_ctx.cellSize = (LINE_PADDING) / sqrtf(2.0f);
-
 
 	while (++i < LINE_LENGHT)
 	{
-		// col_ctx.cellSize = (LINE_PADDING + i) / sqrtf(2.0f);
 		x = static_cast<int>(currentP.x);
 		y = static_cast<int>(currentP.y);
 		v = grid[y * WIDTH + x];
