@@ -13,7 +13,7 @@ std::vector<vec2>	makeGrid(const meridianData& data)
 		{
 			n = perlin (i * data.scale, j * data.scale);
 			//n = std::floor(std::abs(n * steps)) / steps;
-			angle = n * f_PI;//n * 2.0f * 3.14159f; for all directions
+			angle = n * f_PI * 2.0f;//n * 2.0f * 3.14159f; for all directions
 			grid[j * WIDTH + i] = {static_cast<float>(cosf(angle)), static_cast<float>(sinf(angle))};
 		}
 	}
@@ -84,7 +84,7 @@ void	makeSegments(vec2 start, const meridianData& data, const std::vector<vec2>&
 	vec2 v, nextP, currentP = start;
 	int x, y, i = -1;
 
-	while (++i < LINE_LENGHT)
+	while (++i < LINE_LENGTH)
 	{
 		x = static_cast<int>(currentP.x);
 		y = static_cast<int>(currentP.y);

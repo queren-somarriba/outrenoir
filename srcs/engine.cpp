@@ -32,7 +32,7 @@ GLFWwindow* initWindow()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glClearColor(254.0, 254.0, 226.0, 1.0);
+	glClearColor(28.0 / 255.0, 28.0 / 255.0, 28.0 / 255.0, 1.0);
 
 	return window;
 }
@@ -77,8 +77,8 @@ GLuint CompileShaders()
 		"out vec4 FragColor;\n"
 		"void main()\n"
 		"{\n"
-		"vec3 colorA = vec3(127.0 / 255.0, 143.0 / 255.0, 166.0 / 255.0);\n"
-    		"vec3 colorB = vec3(48.0 / 255.0, 48.0 / 255.0, 48.0 / 255.0);\n"
+		"vec3 colorA = vec3(254.0 / 255.0, 254.0 / 255.0, 244.0 / 255.0);\n"
+    		"vec3 colorB = vec3(110.0 / 255.0, 110.0 / 255.0, 110.0 / 255.0);\n"
 		"float noiseValue = random(gl_FragCoord.xy) * 0.15;\n"
 		"vec3 finalColor = mix(colorA, colorB, v_uv.x);\n"
 		"   FragColor = vec4(finalColor, 0.8) - noiseValue;\n"
@@ -111,6 +111,13 @@ void renderScene(GLFWwindow* window, renderContext& context)
 	glfwGetFramebufferSize(window, &currentWidth, &currentHeight);
 	glViewport(0, 0, currentWidth, currentHeight);
 
+	if (context.currentDrawCount < context.vertexCount)
+	{
+		context.currentDrawCount += context.DrawSpeed;
+		if (context.currentDrawCount > context.vertexCount)
+			context.currentDrawCount = context.vertexCount;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(context.shaderProgram);
 
@@ -118,7 +125,9 @@ void renderScene(GLFWwindow* window, renderContext& context)
 	glUniform2f(u_resolutionLocaltion, static_cast<float>(WIDTH), static_cast<float>(HEIGHT));
 
 	glBindVertexArray(context.VAO);
-	glDrawArrays(GL_TRIANGLES, 0, context.vertexCount);
+
+	glDrawArrays(GL_TRIANGLES, 0, context.currentDrawCount);
+	//glDrawArrays(GL_TRIANGLES, 0, context.vertexCount);
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();

@@ -43,6 +43,9 @@ int main(int argc, char** argv)
 	SetupBuffers(allSegments, context.VAO, context.VBO);
 	context.shaderProgram = CompileShaders();
 
+	context.DrawSpeed = 600;
+	context.currentDrawCount = 0;
+
 	while (!glfwWindowShouldClose(window))
 		renderScene(window, context);
 
