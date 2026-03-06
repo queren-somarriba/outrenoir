@@ -13,7 +13,7 @@ GLFWwindow* initWindow()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Meridian", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "outrenoir", NULL, NULL);
 	if (!window)
 	{
 		std::cerr << "Échec de la création de la fenêtre GLFW" << std::endl;
@@ -73,12 +73,14 @@ GLuint CompileShaders()
 		"vec3 p3  = fract(vec3(p.xyx) * 0.1031);\n"
 		"p3 += dot(p3, p3.yzx + 33.33);\n"
 		"return fract((p3.x + p3.y) * p3.z);}\n"
+		"uniform vec3 colorA = vec3(254.0 / 255.0, 254.0 / 255.0, 244.0 / 255.0);\n"
+    		"uniform vec3 colorB = vec3(110.0 / 255.0, 110.0 / 255.0, 110.0 / 255.0);\n"
 		"in vec2 v_uv;\n"
 		"out vec4 FragColor;\n"
 		"void main()\n"
 		"{\n"
-		"vec3 colorA = vec3(254.0 / 255.0, 254.0 / 255.0, 244.0 / 255.0);\n"
-    		"vec3 colorB = vec3(110.0 / 255.0, 110.0 / 255.0, 110.0 / 255.0);\n"
+		// "vec3 colorA = vec3(254.0 / 255.0, 254.0 / 255.0, 244.0 / 255.0);\n"
+    		// "vec3 colorB = vec3(110.0 / 255.0, 110.0 / 255.0, 110.0 / 255.0);\n"
 		"float noiseValue = random(gl_FragCoord.xy) * 0.15;\n"
 		"vec3 finalColor = mix(colorA, colorB, v_uv.x);\n"
 		"   FragColor = vec4(finalColor, 0.8) - noiseValue;\n"
@@ -115,7 +117,17 @@ void renderScene(GLFWwindow* window, renderContext& context)
 	{
 		context.currentDrawCount += context.DrawSpeed;
 		if (context.currentDrawCount > context.vertexCount)
+		{
 			context.currentDrawCount = context.vertexCount;
+			if (context.isRecording && context.currentDrawCount >= context.vertexCount)
+			{
+				std::cout << "Animation terminée, finalisation de la vidéo..." << std::endl;
+				pclose(context.ffmpegPipe);
+				context.ffmpegPipe = nullptr;
+				context.isRecording = false;
+				std::cout << "Vidéo sauvegardée sous outrenoir.mp4 !" << std::endl;
+			}
+		}
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -127,7 +139,13 @@ void renderScene(GLFWwindow* window, renderContext& context)
 	glBindVertexArray(context.VAO);
 
 	glDrawArrays(GL_TRIANGLES, 0, context.currentDrawCount);
-	//glDrawArrays(GL_TRIANGLES, 0, context.vertexCount);
+
+	if (context.isRecording && context.ffmpegPipe)
+	{
+		std::vector<unsigned char> pixels(currentWidth * currentHeight * 3);
+		glReadPixels(0, 0, currentWidth, currentHeight, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+		fwrite(pixels.data(), 1, pixels.size(), context.ffmpegPipe);
+	}
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();

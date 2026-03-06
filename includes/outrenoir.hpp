@@ -1,6 +1,8 @@
 #pragma once
 
 #include <ctime>
+#include <cstdio>
+#include <fstream>
 #include <iostream>
 #include <string>
 

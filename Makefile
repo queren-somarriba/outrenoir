@@ -1,16 +1,16 @@
-NAME = meridian
+NAME = outrenoir
 
 CC = c++
 
 INCLUDES_DIR = includes
 
-CFLAGS = -Wall -Werror -Wextra -g -I./$(INCLUDES_DIR)
+CFLAGS = -Wall -Werror -Wextra -O2 -g -fsanitize=address -I./$(INCLUDES_DIR)
 
 GLFLAGS = -lglfw -lGLEW -framework OpenGL #-lglut -lGLEW -lGLU -lGL
 
 SRCS_DIR = srcs
 
-SRCS =	$(SRCS_DIR)/meridian.cpp \
+SRCS =	$(SRCS_DIR)/outrenoir.cpp \
 	$(SRCS_DIR)/noise.cpp \
 	$(SRCS_DIR)/flowfield.cpp \
 	$(SRCS_DIR)/engine.cpp \

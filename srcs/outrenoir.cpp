@@ -1,13 +1,19 @@
-#include "meridian.hpp"
+#include "outrenoir.hpp"
+
+bool fileExist(const std::string& name)
+{
+	std::ifstream f(name.c_str());
+	return f.good();
+}
 
 int main(int argc, char** argv)
 {
 	renderContext	context;
-	meridianData	data;
+	otData	data;
 
-	if (argc < 3)
+	if (argc < 5)
 	{
-		std::cerr << "Usage: ./meridian <scale> <setpSize>" << std::endl;//stepSize, nombre de lignes, seed
+		std::cerr << "Usage: ./outrenoir <scale> <setpSize> <speed> <record>" << std::endl;//stepSize, nombre de lignes, seed
 		return 1;
 	}
 
@@ -15,6 +21,7 @@ int main(int argc, char** argv)
 
 	data.scale = std::stof(argv[1]);//scale between 0.0f and 1.0f
 	data.stepSize = std::stof(argv[2]);
+	data.record = std::stof(argv[4]);
 
 	GLFWwindow* window = initWindow();
 	if (!window)
@@ -43,8 +50,31 @@ int main(int argc, char** argv)
 	SetupBuffers(allSegments, context.VAO, context.VBO);
 	context.shaderProgram = CompileShaders();
 
-	context.DrawSpeed = 600;
+	context.DrawSpeed = DRAW_SPEED * std::stof(argv[3]);
 	context.currentDrawCount = 0;
+
+	if (data.record)
+	{
+		int fbWidth, fbHeight;
+		std::string	name = "outrenoir_";
+		std::string	extName = ".mp4";
+		int nb = 0;
+		std::string	fileName = name + std::to_string(nb) + extName;
+		
+		while (fileExist(fileName))
+		{
+			++nb;
+			fileName = name + std::to_string(nb) + extName;
+		}	
+		glfwGetFramebufferSize(window, &fbWidth, &fbHeight);
+		std::string cmd = "ffmpeg -y -f rawvideo -pix_fmt rgb24 -s " + std::to_string(fbWidth) + "x" + std::to_string(fbHeight) + " -r 60 -i - -vf vflip -c:v libx264 -pix_fmt yuv420p " + fileName;
+		context.ffmpegPipe = popen(cmd.c_str(), "w");
+		context.isRecording = true;
+	
+
+		if (!context.ffmpegPipe)
+			std::cerr << "Erreur : Impossible d'ouvrir le pipe FFmpeg. Est-il installé ?" << std::endl;
+	}
 
 	while (!glfwWindowShouldClose(window))
 		renderScene(window, context);

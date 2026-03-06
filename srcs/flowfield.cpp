@@ -1,18 +1,16 @@
 #include "flowfield.hpp"
 
-std::vector<vec2>	makeGrid(const meridianData& data)
+std::vector<vec2>	makeGrid(const otData& data)
 {
 	std::vector<vec2> grid(WIDTH * HEIGHT);
 
 	float n, angle;
-	//float steps = 12.0f;
 
 	for (int j = 0; j < HEIGHT; ++j)
 	{
 		for (int i = 0; i < WIDTH; ++i) 
 		{
 			n = perlin (i * data.scale, j * data.scale);
-			//n = std::floor(std::abs(n * steps)) / steps;
 			angle = n * f_PI * 2.0f;//n * 2.0f * 3.14159f; for all directions
 			grid[j * WIDTH + i] = {static_cast<float>(cosf(angle)), static_cast<float>(sinf(angle))};
 		}
@@ -75,7 +73,7 @@ bool	checkCollision(vec2 nextP, int currentLine, collisionContext& col_ctx)
 	return false;
 }
 
-void	makeSegments(vec2 start, const meridianData& data, const std::vector<vec2>& grid,
+void	makeSegments(vec2 start, const otData& data, const std::vector<vec2>& grid,
 		std::vector<vec2>& allSegments, int currentLine, collisionContext& col_ctx)
 {
 	std::vector<vec2> path;

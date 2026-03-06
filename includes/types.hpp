@@ -6,9 +6,10 @@
 #define f_PI		3.14159265f
 #define WIDTH		720
 #define HEIGHT		1080
-#define PSD_R		10.0f
+#define PSD_R		30.0f
 #define LINE_PADDING	1.0f
 #define LINE_LENGTH	10000
+#define	DRAW_SPEED	600.0f
 
 struct vec2
 {
@@ -16,13 +17,14 @@ struct vec2
 	float	y;
 };
 
-struct meridianData
+struct otData
 {
+	bool	record;
 	float	scale;
 	float	stepSize;
 };
 
-struct renderContext
+struct renderContext//check order
 {
 	GLuint	VAO;
 	GLuint	VBO;
@@ -30,6 +32,8 @@ struct renderContext
 	int	vertexCount;
 	int	currentDrawCount;
 	int	DrawSpeed;
+	FILE*	ffmpegPipe;
+	bool	isRecording;
 };
 
 struct pdsContext
