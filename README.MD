@@ -8,7 +8,7 @@ This project was built from scratch without external game engines, implementing 
 
 * Poisson Disk Sampling: Organic and harmonious generation of line starting points, preventing artificial clusters.
 
-* Flow Field (Perlin Noise & FBM): Calculation of fluid and textured trajectories simulating laminar or turbulent physics.
+* Flow Field (Perlin Noise): Calculation of fluid and textured trajectories simulating laminar or turbulent physics.
 
 * Spatial Hashing: Optimized collision detection system using a spatial grid to prevent geometry overlap with high performance.
 
