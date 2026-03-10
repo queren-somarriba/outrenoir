@@ -1,9 +1,15 @@
 # Outrenoir
+
 Outrenoir is a generative art engine written in C++ and OpenGL. Inspired by the textured canvases and light play of the painter Pierre Soulages, this program generates real-time animations of organic strata, drawn using vector fields and natural placement algorithms.
+
+<p align="center">
+  <img src="assets/outrenoir1.gif" alt="default conf">
+</p>
 
 The engine also features a direct video export pipeline (via pipe) to record lossless renders using FFmpeg.
 
 ### 🚀 Technical Features
+
 This project was built from scratch without external game engines, implementing low-level mathematical and graphical algorithms:
 
 * Poisson Disk Sampling: Organic and harmonious generation of line starting points, preventing artificial clusters.
@@ -20,7 +26,9 @@ This project was built from scratch without external game engines, implementing 
 
 * Integrated Video Export: Inter-process communication (IPC) with FFmpeg to encode the OpenGL Framebuffer stream into a 60 FPS .mp4 file.
 
+
 ### 🛠️ Prerequisites and Installation
+
 To compile and run this project, your system must have the following libraries installed:
 
 * C++ Compiler (supporting C++11 minimum)
@@ -33,17 +41,22 @@ To compile and run this project, your system must have the following libraries i
 
 * FFmpeg (Optional, required only for video export)
 
+
 ### Compilation
+
 A Makefile is provided at the root of the project. Simply use the standard command:
 ```Bash
 make
 ```
 ### ⚙️ Usage and Configuration
+
 The program takes a configuration text file as an argument, allowing you to modify the mathematical and visual behavior of the engine without recompiling.
 ```Bash
 ./outrenoir conf/config
 ```
+
 ### The Configuration File
+
 The parser reads key: value pairs. Here are the available parameters:
 | Parameter | Description |
 | :--- | :--- |
@@ -58,7 +71,9 @@ The parser reads key: value pairs. Here are the available parameters:
 		
 💡 Rendering Tip (Pointillism): By setting an extremely low step_size (e.g., 0.0007) and a high speed, the engine will draw suspension points revealing the initial Poisson Disk Sampling placement.
 
+
 ### 🏗️ Code Architecture
+
 The architecture is modular and divided by responsibilities:
 
 * outrenoir.cpp: Entry point, configuration parser, and main orchestrator.
@@ -70,3 +85,33 @@ The architecture is modular and divided by responsibilities:
 * poissonDiskSampling.cpp: Spatial distribution algorithm for origin points.
 
 * noise.cpp: Raw mathematical implementation of noise (Perlin) and gradients.
+
+### Render Exemples
+
+<p align="center">
+  <img src="assets/outrenoir0.gif" alt="default conf">
+</p>
+
+<p align="center">
+  <img src="assets/outrenoir2.gif" alt="default conf">
+</p>
+
+<p align="center">
+  <img src="assets/outrenoir3.gif" alt="default conf">
+</p>
+
+<p align="center">
+  <img src="assets/outrenoir4.gif" alt="default conf">
+</p>
+
+<p align="center">
+  <img src="assets/outrenoir5.gif" alt="default conf">
+</p>
+
+<p align="center">
+  <img src="assets/outrenoir6.gif" alt="default conf">
+</p>
+
+<p align="center">
+  <img src="assets/outrenoir7.gif" alt="default conf">
+</p>
