@@ -6,7 +6,7 @@ Outrenoir is a generative art engine written in C++ and OpenGL. Inspired by the 
   <img src="assets/outrenoir1.gif" alt="default conf">
 </p>
 
-The engine also features a direct video export pipeline (via pipe) to record lossless renders using FFmpeg.
+The engine also features a direct video export pipeline to record renders using FFmpeg.
 
 ### 🚀 Technical Features
 
@@ -14,17 +14,17 @@ This project was built from scratch without external game engines, implementing 
 
 * Poisson Disk Sampling: Organic and harmonious generation of line starting points, preventing artificial clusters.
 
-* Flow Field (Perlin Noise & FBM): Calculation of fluid and textured trajectories simulating laminar or turbulent physics.
+* Flow Field (Perlin Noise): Calculation of fluid and textured trajectories simulating laminar or turbulent physics.
 
 * Spatial Hashing: Optimized collision detection system using a spatial grid to prevent geometry overlap with high performance.
 
-* Custom GLSL Shaders:
+Custom GLSL Shaders:
 
 * Dynamic lighting with randomized orientation on each execution.
 
 * Procedural generation of a "Canson Paper" texture using Fractal Brownian Motion (FBM) directly on the GPU.
 
-* Integrated Video Export: Inter-process communication (IPC) with FFmpeg to encode the OpenGL Framebuffer stream into a 60 FPS .mp4 file.
+Integrated Video Export: Inter-process communication (IPC) with FFmpeg to encode the OpenGL Framebuffer stream into a 60 FPS .mp4 file.
 
 
 ### 🛠️ Prerequisites and Installation
