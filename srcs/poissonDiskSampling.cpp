@@ -2,8 +2,8 @@
 
 void initPdsContext(pdsContext& ctx, std::vector<vec2>& outputList, const otData& data)
 {
-	float x = (static_cast<float>(std::rand()) / RAND_MAX) * data.width;
-	float y = (static_cast<float>(std::rand()) / RAND_MAX) * data.height;
+	float x = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * data.width;
+	float y = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * data.height;
 	
 	outputList.push_back({x, y});
 	ctx.activeList.push_back(0);
@@ -22,8 +22,8 @@ vec2	generateRandomCandidate(const vec2& ref_point, const otData& data)
 {
 	float	angle, len, x, y;
 
-	angle = 2.0f * f_PI * (static_cast<float>(std::rand()) / RAND_MAX);
-	len = data.pds_radius + (static_cast<float>(std::rand()) / RAND_MAX) * data.pds_radius;
+	angle = 2.0f * f_PI * (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX));
+	len = data.pds_radius + (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * data.pds_radius;
 	x = len * cosf(angle) + ref_point.x;
 	y = len * sinf(angle) + ref_point.y;
 

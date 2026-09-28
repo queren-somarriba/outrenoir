@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 	if (data.record)
 		startffmpeg(window, context);
 
-	context.u_angle = (static_cast<float>(std::rand()) / RAND_MAX * 10.0f);
+	context.u_angle = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX) * 10.0f);
 
 	while (!glfwWindowShouldClose(window))
 		renderScene(window, context, data);
